@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>NAIoCC User Manual</title>
+    <meta name="description" content="Not Another Inversion of Control Container">
+    <meta name="author" content="Elías Calderón/Kevin León/Josúe León">
+    <meta name="format-detection" content="telephone=no">
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/prettify.css">
+	<link rel="stylesheet" type="text/css" href="css/normalize.css" >
+</head>
+<body>
+	<header>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-md-7 col-xs-12">
+					<div class="slogan">
+						Not Another Inversion of Control Container User Manual
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<section class="content">
+		<div class="container">
+			<div class="content-wrap">
+				<div class="row">
+					<aside>
+						<div class="menu-box">
+							<h4>Navigation</h4>	
+							<nav>
+								<ul>
+									<li><a href="#start" class="current">Get started</a></li>
+									<li><a href="#description">Description</a></li>
+									<li><a href="#concepts">Bean Basic Concepts</a></li>
+									<li><a href="#functionality">Functionality</a></li>
+									<li><a href="#xmlConf">XML Configuration</a></li>
+									<li><a href="#annotationsConf">Annotations Configuration</a></li>
+									<li><a href="#installation">Installation</a></li>
+									<li><a href="#somE">Some Examples</a></li>
+									<li><a href="#credits">Credits</a></li>
+								</ul>					
+							</nav>
+						</div>
+					</aside>
+					<div class="content-info">
+						<div class="section-txt" id="start">
+							<h3>Get started</h3>
+							<p> <i>Software engineering</i> is a Computer Science branch, based on the two concepts software and engineering, and consisting on a set of methods, models, tools, and techniques that facilitate software development. </p>
+							<p> One  of  the  main  goals  of  software  engineers  is  to  reduce  this  process complexity, which is naturally very high. Software engineering has a lot of design  patterns  and  programming  models  that  can  be  used  when  creating software systems.  One of the most used and famous design patterns is <i>Dependency Injection</i>. Dependency injection removes the dependencies between objects from their internal composition and handles them by itself in order to separate the programs in more parts,  making a program’s objects work independently from others. </p>
+							<p> In software engineering <i>Inversion of Control</i> is very important and changes the normal flow in which programs are developed. Inversion of control consists in an inverted flow of the program execution respectful to traditional programming methods, in which the developer no longer holds the main control of the program, it is driven by a framework. In this way, the framework is in charge of creating and controlling the dependencies of each object and handle them to it when needed, increasing the modularity. </p>
+							<p> An Inversion of Control container is a very complex program that requires a variety of elaborated algorithms and patterns to successfully perform its job. The term was popularized in 1999 by the computer scientist Stefano Mazzochi and since then, different frameworks based on this principle have been developed.</p>
+						</div>
+						<div class="section-txt" id="description">
+							<h3>Description</h3>
+							<p> NAIoCC (<i>Not Another Inversion of Control Container)</i> provides the basic characteristics an IoC container offers, but in a well implemented environment with high quality development. NAIoCC can be obtained from the <font face="Arial">com.ci1330.ecci.ucr.ac.cr</font> package and its main components are the XMLFactory and AnnotationsFactory. </p>
+							<p> The XMLFactory is used to specify the configuration in the XML file, whilst the AnnotationsFactory is its complement which allows to create the configuration via Java Annotations. Both of them create and share the container, which holds all the objects that will be created. </p>
+							<p> The objects that you create are called beans, and they are managed by NAIoCC. Beans metadata is obtained from the configuration you specify, and it is used to create, instantiate and manage all the beans along with their dependencies. You just need to provide the properties for each bean, and NAIoCC will take care of all the process, in order to return you the needed beans already assembled, whenever you need them. </p>
+						</div>
+						<div class="section-txt" id="concepts">
+							<h3>Bean Basic Concepts</h3>
+							<p> Understanding the following concepts makes easier NAIoCC's use: </p>
+							<ul>
+								<li> <b>Bean</b> is an abstract object, for the dependency injection, that is created by the bean factory and it is saved in the inversion of control container. It has some properties: <i>id, class, scope, init, destroy, lazy-generation and autowire.</i>  It is obligatory. </li>
+								<li> <b>Id</b> is the unique identification for each bean. It is obligatory.  Its value can not be repeated in different beans. </li>
+								<li> <b>Scope</b> specifies the scope of the bean. It is not obligatory. Its value can be <i>Singleton</i>, which is the default value, or <i>Prototype</i>.  Singleton means that just one bean is instantiated and all the requests for that bean  use  the  same  instance. Prototype consists in creating a new instance of the bean each time it is requested. </li>
+								<li> <b>Init</b> consists in the initialization method for a bean. It is not obligatory. This method is called when the bean is instantiated. </li>
+								<li> <b>Destroy</b> consists in the destruction method for a bean. It is not obligatory. This method is called when the bean is destroyed. </li>
+								<li> <b>Lazy-generation</b> determines if the bean is instantiated when the container is created or when the bean is requested by a user, in the case that its scope is Singleton. It is not obligatory and by default it is set to <i>false</i>. Its value can be the same for different beans. If the value is (<i>true</i>), the bean is instantiated until it is requested, otherwise (<i>false</i>) the bean is instantiated when the container is created. For Prototype scopes, it behaves the same way as normal since beans are instantiated when requested. </li>
+								<li> <b>Autowire</b> specifies the automatic way of wiring the dependencies in a bean. It is not obligatory. Its value can be repeated in different beans. The value can be set to <i>byName</i>,  <i>byType</i>,  <i>constructor</i> or <i>none</i>, by default.  It can be overridden, when it is specified in an <i>attribute</i> or <i>param</i> of the constructor specifically. </li>
+								<li> <b>Attribute</b> specifies a bean’s attribute, so that it is injected through <i>”setter”</i> methods. It is not obligatory. There can be multiple attributes defined in a bean. It has a <i>name</i> and <i>ref</i> or <i>value</i>, if its type is primitive</li>
+								<li> <b>Atomic-autowire</b> specifies the automatic way of wiring the dependencies for a property in a bean. It is not obligatory. Its value can be repeated in different beans. The value can be set to <i>byName</i>, <i>byType</i>, or <i>none</i>, by default.</li>
+								<li> <b>Constructor</b> is  used  to  define  constructor  injection  and  specify  its parameters. It is not obligatory. It is unique for a bean, therefore there can only be one Constructor tag inside a bean’s configuration. </li>
+								<li> <b>Param</b> identifies  a  constructor’s  argument. It is obligatory. It can has <i>type, index</i> or both. It can also has <i>value</i> or <i>ref</i>.
+							</ul>
+						</div>
+						<div class="section-txt" id="functionality">
+							<h3>Functionality</h3>
+							<p>The NAIoCC supports the following functionality:</p>
+							<ol>
+								<li>Dependency injection:
+									<p> Dependency injection consists on NAIoCC taking care of providing the beans with their dependencies and injecting them at the moment of instantiation, when you request for a bean. This is one of the main concepts that conforms the base of the Inversion of Control paradigm, since the control is inverted and the container is in charge of assembling the bean, not you from the class itself.</p>
+									<ul>
+										<li><b>Setter</b>: Setter injection is based on the injection of a bean's dependencies via setter methods. In this way, all the specified attributes of a bean in the configuration are injected automatically using their corresponding setter methods, which NAIoCC takes care of associating and invoking the correct methods for each attribute.</li>
+										<li><b>Constructor</b>: Constructor injection is based on the injection of a bean's dependencies via its constructor. In this way, NAIoCC creates the bean's instance with the correct constructor defined by the configuration, and injects the dependencies with the correct parameters.</li>
+									</ul>
+								</li>
+								<li>Scope:
+									<p> The scope functionality establishes the bean's limit of being able to have just one instance or multiple, depending on your needs. </p>
+									<ul>
+										<li><b>Singleton</b>: The Singleton scope indicates that a bean can only be instantiated once, and every request you do of that bean will return you the same and unique instance the bean has.</li>
+										<li><b>Prototype</b>: The Prototype scope specifies that a bean can be instantiated multiple times, which means that every request you do of a bean with this scope, will create a new instance of it.</li>
+									</ul>
+								</li>
+								<li>Lifecycle:
+									<p> In NAIoCC, beans have a life cycle, which consists on their process of being instantiated throughout being destroyed.</p>
+									<ul>
+										<li><b>Initialization</b>: The initialization cycle is based on the possibility of a bean to do certain defined operations when it is instantiated. In this way, an initialization method can be provided so that it is called when the bean is instantiated.</li>
+										<li><b>Destroy</b>: The destruction cycle is based on the possibility of a bean to do certain defined operations when it is destroyed. In this way, a destroy method can be provided so that it is called before the bean is destroyed.</li>
+									</ul>
+								</li>
+								<li>Autowiring:
+									<p> Autowiring refers to the functionality of automatically wiring a bean's dependencies before instantiation, based on a criteria defined in the configuration of the bean.</p>
+									<ul>
+										<li><b>By Name</b>: Autowiring "byName" consists on wiring the bean's dependencies by determining the object to inject based on searching for a bean in the container that has the specified name as its id.</li>
+										<li><b>By Type</b>: Autowiring "byType" consists on wiring the bean's dependencies by determining the object to inject based on searching for a bean in the container of the same type as the one specified.</li>
+									</ul>
+								</li>
+								<li>Configuration Format:
+									<p> The configuration format is the way in which the beans' properties can be indicated for NAIoCC to read them and define the correct metadata for each bean, to use it later for bean assembly purposes. </p>
+									<ul>
+										<li><b>XML</b>: XML is the way in which the configuration can be stated in an XML file. When creating the instance of XMLFactory, this file must be inserted as its parameter.</li>
+										<li><b>Annotations</b>: Java annotations is the way in which the configuration can be stated in the Java Classes. When creating the instance of AnnotationsFactory, a class path may be inserted as parameter for NAIoCC to read its configuration, or specify them later. Java annotations can also be used and specified via the XML file.</li>
+									</ul>
+								</li>
+								<li>Extra features:
+									<p> These features correspond to different functionality but are important to be specified. </p>
+									<ul>
+										<li><b>Lazy Loading</b>: Lazy Loading consists on altering the scope of a bean, and establishing that it will not be instantiated in any way, until you request it. Even if the scope is set to Singleton, if Lazy Loading is indicated, the bean acts like a Prototype.</li>
+										<li><b>Stereotype Annotations</b>: Stereotype annotations are extra annotations that change the conceptual layer of beans defined with Java annotations. Normally, a class is indicated to be a bean with the @Bean annotation. However, to facilitate understanding and a better way of modelling a system, the annotations @Service, @Repository and @Controller are provided.</li>
+									</ul>
+								</li>
+							</ol>
+						</div>
+						<div class="section-txt" id="xmlConf">
+							<h3>XML Configuration</h3>
+							<p>To use the container the user has to define the beans and the information to create them(metadata) in an XML file. Also user has to make make a XML Bean Factory.</p>
+							<p>The following are some specific concepts for XML Configuration</p>
+							<ul>
+								<li><b>Name</b> the name of the attribute to inject. It is obligatory. Its value can not be repeated inside the same bean.</li>
+								<li><b>Type</b> identifies the property’s type of a constructor’s parameter to make the injection. It is not obligatory.</li>
+								<li><b>Index</b> identifies the parameter’s index of a constructor’s parameter to make the injection. It is not obligatory, and its value must be unique inside a bean’s constructor.</li>
+								<li><b>Value</b> identifies the attribute’s  value or argument’s value. It is not obligatory. Its value is not unique.</li>
+								<li><b>Ref</b> makes reference to a declared bean ID for any other bean in theXML. It is not obligatory. The reference is unique but can be used by multiple beans.</li>
+								<li><b>Annotations Classes</b> Indicates that there are annotations in the specified. There can be just an annotationsClasses tag in the XML configuration.</li>
+								<li><b>Class</b>tag, in Annotations Classes, determines a class which contains annotations. It has an attribute called path, which specifies the path of the respective class.</li>
+								<li><b>Path</b> has the name of the class with annotations. It can be just one per class tag.</li>
+							</ul>
+							<p>XML Structure:</p>
+							Bean:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans &gt;
+    &lt;bean   id = "beanId" class = "package.path.class"&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+							</pre>
+							Scope:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans &gt;
+    &lt;bean   id = "beanId" class = "package.path.class" scope="Singleton/Prototype"&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+							</pre>
+							Init:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans init="defaultInitMethod"&gt;
+    &lt;bean   id = "beanId" class = "package.path.class" init="methodName"&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+							</pre>
+							Destroy:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans destroy="defaultDestroyMethod"&gt;
+    &lt;bean   id = "beanId" class = "package.path.class" destroy="methodName"&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+							</pre>
+							Lazy-generation:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans &gt;
+    &lt;bean   id = "beanId" class = "package.path.class" lazy-generation="true/false"&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+							</pre>
+							Autowire:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans &gt;
+    &lt;bean   id = "beanId" class = "package.path.class" autowire="byName/byType/none"&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+							</pre>
+							Constructor:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans &gt;
+    &lt;bean   id = "beanId" class = "package.path.class"
+            &lt;constructor>
+            &lt;/constructor>
+
+    &lt;/bean&gt;
+
+&lt;/beans&gt;
+							</pre>
+							Param:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans &gt;
+    &lt;bean   id = "beanId" class = "package.path.class"
+            &lt;constructor>
+			&lt;param  type="package.path.class" index="numberIndex" value="valor"/ref="beanId" /&gt;
+
+                &lt;param  ref="beanId" atomic-autowire="byName/byType"/&gt;
+
+                &lt;param  type="package.path.class" atomic-autowire="byName/byType"/&gt;
+            &lt;/constructor>
+
+    &lt;/bean&gt;
+
+&lt;/beans&gt;
+							</pre>
+							Attribute:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans &gt;
+    &lt;bean   id = "beanId" class = "package.path.class"&gt;
+
+            &lt;attribute  name="nombreAtr" value="valor"/ref="beanId" atomic-autowire="byName/byType"/&gt;
+
+            &lt;attribute  name="nombreAtr" atomic-autowire="byName/byType"/&gt;
+
+    &lt;/bean&gt;
+
+&lt;/beans&gt;
+							</pre>
+							Annotations Classes:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans&gt;
+    &lt;bean   id = "beanId" class = "package.path.class"
+	&lt;/bean&gt;
+
+    &lt;annotationsClasses> &lt;class path="package.path.class" /&gt;
+	&lt;/annotationsClasses&gt;
+&lt;/beans&gt;
+							</pre>
+							Summary:
+							<pre class="prettyprint">
+&lt;xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans init="defaultInitMethod" destroy="defaultDestroyMethod"&gt;
+    &lt;bean   id = "beanId" class = "package.path.class"
+			scope="Singleton/Prototype"
+			init="methodName" destroy="methodName"
+			lazy-generation="true/false"
+			autowire="byName/byType/none"&gt;
+
+            &lt;constructor>
+                &lt;param  type="package.path.class"
+						index="numberIndex"
+						value="valor"/ref="beanId" /&gt;
+
+                &lt;param  ref="beanId" atomic-autowire="byName/byType"/&gt;
+
+                &lt;param  type="package.path.class" atomic-autowire="byName/byType"/&gt;
+            &lt;/constructor>
+
+            &lt;attribute  name="nombreAtr" value="valor"/ref="beanId" atomic-autowire="byName/byType"/&gt;
+
+            &lt;attribute  name="nombreAtr" atomic-autowire="byName/byType"/&gt;
+
+    &lt;/bean&gt;
+
+    &lt;annotationsClasses> &lt;class path="package.path.class" /&gt;
+	&lt;/annotationsClasses&gt;
+&lt;/beans&gt;
+							</pre>
+						</div>
+						<div class="section-txt" id="annotationsConf">
+							<h3>Annotations Configuration</h3>
+							<p>The annotations configuration can be used alongside XML configuration or making an Annotations Bean Factory. The following are the annotations and its structure:</p>
+							Bean:
+									<pre class="prettyprint">
+@Bean("beanId")
+public class BeanClass{
+	...
+}
+							</pre>
+							Scope:
+									<pre class="prettyprint">
+@Bean("beanId")
+@Scope("Singleton")/@Scope("Prototype")
+public class BeanClass{
+	...
+}
+							</pre>
+							Init:
+									<pre class="prettyprint">
+@Bean(id)
+public class BeanClass{
+	@Init
+	public void initMethod(){
+		...
+	}
+}
+							</pre>
+							Destroy:
+									<pre class="prettyprint">
+@Bean(id)
+public class BeanClass{
+	@Destroy
+	public void destroyMethod(){
+		...
+	}
+}
+							</pre>
+							Lazy-generation:
+									<pre class="prettyprint">
+@Bean("beanId")
+@Lazy
+public class BeanClass{
+	...
+}
+							</pre>
+							Class Autowire:
+									<pre class="prettyprint">
+@Bean("beanId")
+@ClassAutowire
+public class BeanClass{
+	...
+}
+							</pre>
+							Attribute:
+									<pre class="prettyprint">
+@Bean("beanId")
+public class BeanClass{
+	@Attribute(attributeValue)/@Attribute(value=attributeValue)/@Attribute(ref="beanIdReferenced")
+	private attributeType attributeName;
+
+	public void setAttributeName(){
+		...
+	}
+}
+							</pre>
+							Atomic Autowire:
+									<pre class="prettyprint">
+@Bean("beanId")
+public class BeanClass{
+	@AtomicAutowire()/@AtomicAutowire("byName")/@AtomicAutowire("byType")
+	private attributeType attributeName;
+
+	public void setAttributeName(){
+		...
+	}
+}
+							</pre>
+							Constructor:
+									<pre class="prettyprint">
+@Bean(id)
+public class BeanClass{
+	@Constructor
+	public BeanClass(...){
+		...
+	}
+}
+							</pre>
+							Parameter:
+									<pre class="prettyprint">
+@Bean(id)
+public class BeanClass{
+	@Constructor
+	@Parameter(value=paramValue)/@Parameter(ref="beanIdReferenced")
+	public BeanClass(...){
+		...
+	}
+}
+							</pre>
+						</div>
+						<div class="section-txt" id="installation">
+							<h3>Installation</h3>
+							<ul>
+								<li><b>Hardware Requirements</b></li>
+								NAIoCC was developed using 64 bits computer systems, with an average RAM of 8 GB and sufficient hard drive space. Nonetheless, NAIoCC can be used in any computer system that operates correctly, independently of its architecture, RAM and hard drive properties.
+								<li><b>Software Requirements</b></li>
+								NAIoCC was developed using the Java programming language and a variety of its libraries. Java can be used in multiple platforms and offers a lot of compatibility. In order to use NAIoCC, the computer system from where it is going to be used should have an operating system like Windows, with Windows XP version or a newer one; Linux, or MAC OS X. Moreover, when using NaIOCC it is also recommended to have a Java IDE, such as IntelliJ, which was the one primarily used for NAIoCC's development.
+								<li><b>Compilation</b></li>
+								In order to compile a project that uses NAIoCC, the package's jar should firstly be imported. One of the easiest ways to do this is using Maven, to manage the project's dependencies, and including NAIoCC's dependency in the configuration XML file.
+								NAIoCC's  maven dependency is the following:
+								<pre class="prettyprint">
+&lt;groupId&gt;com.ci1330.ecci.ucr.ac.cr&lt;/groupId&gt;
+&lt;artifactId&gt;NAIoCC&lt;/artifactId&gt;
+&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+							</pre>
+								Or the other way is making the NAIoCC's jar:
+								<img src="images/jarGeneration.PNG">
+								<img src="images/jarGenerated.PNG">
+							</ul>
+						</div>
+						<div class="section-txt" id="somE">
+							<h3>Some Examples</h3>
+							The following is the XML Configuration of the example:
+							<pre class="prettyprint">
+&lt;?xml version = "1.0" encoding = "UTF-8"?&gt;
+&lt;beans init="defaultInitMethod" destroy="defaultDestroyMethod"&gt;
+    &lt;bean     id = "triangulo" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Triangle" scope="Singleton"
+			  lazy-generation="true" init = "init" destroy="destroy" autowire="constructor"&gt;
+
+        &lt;attribute name="triangleCenter" atomic-autowire="byName"/&gt;
+
+    &lt;/bean&gt;
+
+    &lt;bean     id = "pointA" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Point" scope="Prototype"&gt;
+
+        &lt;constructor&gt;
+
+            &lt;param type="int" index="0" value="2"/&gt;
+            &lt;param type="int" index="1" value="4"/&gt;
+            &lt;param type="int" index="2" value="6"/&gt;
+
+        &lt;/constructor&gt;
+
+    &lt;/bean&gt;
+
+    &lt;bean     id = "pointB" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Point" scope="Prototype"&gt;
+
+        &lt;attribute name="x" value="6"/&gt;
+        &lt;attribute name="y" value="8"/&gt;
+        &lt;attribute name="z" value="10"/&gt;
+
+    &lt;/bean&gt;
+
+    &lt;bean     id = "pointC" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Point" scope="Prototype"&gt;
+
+        &lt;attribute name="x" value="12"/&gt;
+        &lt;attribute name="y" value="14"/&gt;
+        &lt;attribute name="z" value="16"/&gt;
+    &lt;/bean&gt;
+
+    &lt;bean     id = "triangleCenter" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Point" scope="Prototype"&gt;
+
+        &lt;attribute name="x" value="8"/&gt;
+        &lt;attribute name="y" value="8"/&gt;
+        &lt;attribute name="z" value="8"/&gt;
+
+    &lt;/bean&gt;
+
+    &lt;bean     id = "person" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Person" scope="Prototype"&gt;
+
+        &lt;attribute name="triangle" atomic-autowire="byType"/&gt;
+        &lt;attribute name="bicycle" atomic-autowire="byName"/&gt;
+
+        &lt;constructor&gt;
+
+            &lt;param type="boolean" value="true"/&gt;
+            &lt;param type="java.lang.String" value="costarican"/&gt;
+            &lt;param type="int" value="175489239"/&gt;
+
+        &lt;/constructor&gt;
+
+        &lt;attribute name="name" value="Josue"/&gt;
+
+    &lt;/bean&gt;
+
+    &lt;bean     id = "bicycle" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Bicycle" scope="Singleton"
+			  autowire="byName"&gt;
+    &lt;/bean&gt;
+
+    &lt;bean     id = "firstWheel" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Wheel" scope="Singleton"
+			  autowire="byType"&gt;
+    &lt;/bean&gt;
+
+    &lt;bean     id = "secondWheel" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Wheel" scope="Singleton"&gt;
+
+        &lt;constructor&gt;
+
+            &lt;param type="com.ci1330.ecci.ucr.ac.cr.ejemplos.Rim" atomic-autowire="byType"/&gt;
+
+        &lt;/constructor&gt;
+
+    &lt;/bean&gt;
+
+    &lt;bean     id = "wheelRim" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Rim" scope="Singleton"&gt;
+
+        &lt;constructor&gt;
+
+            &lt;param ref="rimBrand" atomic-autowire="byName"/&gt;
+
+        &lt;/constructor&gt;
+    &lt;/bean&gt;
+
+    &lt;bean     id = "rimBrand" class = "com.ci1330.ecci.ucr.ac.cr.ejemplos.Brand" scope="Singleton"&gt;
+
+        &lt;attribute name="name" value="BMW"/&gt;
+    &lt;/bean&gt;
+
+    &lt;annotationsClasses&gt;
+        &lt;class path="com.ci1330.ecci.ucr.ac.cr.ejemplos.Pod" /&gt;
+        &lt;class path="com.ci1330.ecci.ucr.ac.cr.ejemplos.Rose"/&gt;
+        &lt;class path="com.ci1330.ecci.ucr.ac.cr.ejemplos.Tulip"/&gt;
+        &lt;class path="com.ci1330.ecci.ucr.ac.cr.ejemplos.Leaf"/&gt;
+    &lt;/annotationsClasses&gt;
+&lt;/beans&gt;
+
+							</pre>
+						</div>
+						<div class="section-txt" id="credits">
+						<h3>Credits</h3>
+						<p>The source code of this <i>HTML</i> file, the style <i>css</i> and the <i>JavaScript</i> code was taken from: https://www.behance.net/gallery/33791338/VDOC-Free-Responsive-Documentation-HTML-Template</p>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="footer-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 center">
+					Not Another Inversion of Control Container User Manual
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 center">
+					 Developed by: Elías Calderón Calderón, Kevin León Sandoval and Josúe León Sarkis
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/prettify.min.js"></script>
+	<script src="js/scripts.min.js"></script>
+</body>
+</html>

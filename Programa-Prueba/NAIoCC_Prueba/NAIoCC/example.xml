@@ -1,0 +1,101 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans init="defaultInitMethod" destroy="defaultDestroyMethod">
+
+    <bean     id = "triangle" class = "test.com.ci1330.ecci.ucr.ac.cr.Triangle" scope="Singleton"
+              lazy-generation="true" init = "init" destroy="destroy" autowire="constructor">
+
+        <attribute name="triangleCenter" atomic-autowire="byName"/>
+
+    </bean>
+
+    <bean     id = "pointA" class = "test.com.ci1330.ecci.ucr.ac.cr.Point" scope="Prototype">
+
+        <constructor>
+
+            <param type="int" index="0" value="2"/>
+            <param type="int" index="1" value="4"/>
+            <param type="int" index="2" value="6"/>
+
+        </constructor>
+
+    </bean>
+
+    <bean     id = "pointB" class = "test.com.ci1330.ecci.ucr.ac.cr.Point" scope="Prototype">
+
+        <attribute name="x" value="6"/>
+        <attribute name="y" value="8"/>
+        <attribute name="z" value="10"/>
+
+    </bean>
+
+    <bean     id = "pointC" class = "test.com.ci1330.ecci.ucr.ac.cr.Point" scope="Prototype">
+
+        <attribute name="x" value="12"/>
+        <attribute name="y" value="14"/>
+        <attribute name="z" value="16"/>
+    </bean>
+
+    <bean     id = "triangleCenter" class = "test.com.ci1330.ecci.ucr.ac.cr.Point" scope="Prototype">
+
+        <attribute name="x" value="8"/>
+        <attribute name="y" value="8"/>
+        <attribute name="z" value="8"/>
+
+    </bean>
+
+    <bean     id = "person" class = "test.com.ci1330.ecci.ucr.ac.cr.Person" scope="Prototype">
+
+        <attribute name="triangle" atomic-autowire="byType"/>
+        <attribute name="bicycle" atomic-autowire="byName"/>
+
+        <constructor>
+
+            <param type="boolean" value="true"/>
+            <param type="java.lang.String" value="costarican"/>
+            <param type="int" value="175489239"/>
+
+        </constructor>
+
+        <attribute name="name" value="Josue"/>
+
+    </bean>
+
+    <bean     id = "bicycle" class = "test.com.ci1330.ecci.ucr.ac.cr.Bicycle" scope="Singleton"
+              autowire="byName">
+    </bean>
+
+    <bean     id = "firstWheel" class = "test.com.ci1330.ecci.ucr.ac.cr.Wheel" scope="Singleton"
+              autowire="byType">
+    </bean>
+
+    <bean     id = "secondWheel" class = "test.com.ci1330.ecci.ucr.ac.cr.Wheel" scope="Singleton">
+
+        <constructor>
+
+            <param type="test.com.ci1330.ecci.ucr.ac.cr.Rim" atomic-autowire="byType"/>
+
+        </constructor>
+
+    </bean>
+
+    <bean     id = "wheelRim" class = "test.com.ci1330.ecci.ucr.ac.cr.Rim" scope="Singleton">
+
+        <constructor>
+
+            <param ref="rimBrand" atomic-autowire="byName"/>
+
+        </constructor>
+    </bean>
+
+    <bean     id = "rimBrand" class = "test.com.ci1330.ecci.ucr.ac.cr.Brand" scope="Singleton">
+
+        <attribute name="name" value="BMW"/>
+    </bean>
+
+    <annotationsClasses>
+        <class path="test.com.ci1330.ecci.ucr.ac.cr.Pod" />
+        <class path="test.com.ci1330.ecci.ucr.ac.cr.Rose"/>
+        <class path="test.com.ci1330.ecci.ucr.ac.cr.Tulip"/>
+        <class path="test.com.ci1330.ecci.ucr.ac.cr.Leaf"/>
+    </annotationsClasses>
+</beans>
